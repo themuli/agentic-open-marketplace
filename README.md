@@ -1,6 +1,60 @@
 # Agentic Open Marketplace (AOM)
 
+Most shopping agents work one buyer at a time: search listings, compare prices, and help with checkout. They miss opportunities that only emerge when multiple buyers coordinate.
+
+AOM demonstrates that coordination. Each buyer states what they need, their budget, and how long they can wait; a facilitator discovers that their separate requests create a viable deal together. The marketplace can form around demand before anyone creates a listing.
+
+Our bet is that as more people delegate purchases to agents, those agents will negotiate and coordinate with each other. **Today we browse marketplaces. Tomorrow our agents will create them.**
+
 TypeScript / mcp-use hackathon prototype. Three buyers independently express requirements in ChatGPT. A separate facilitator agent discovers market MCP tools, composes 98 + 1 + 1 cable requests, collects three Stripe test payments, places a simulated supplier order, and sends the company an Inkbox iMessage.
+
+## Platforms Used
+Manufact (shopping agents and a facilitator agent)
+Stripe for payments
+Inkbox (iMessage alerts)
+
+## How all three buyers benefit
+
+The company needs 98 cables, while two consumers each need one. Together, **98 + 1 + 1 = 100** unlocks the demo supplier's bulk tier. Each buyer gets exactly the quantity they want, and the facilitator coordinates the shared purchase and simulated local delivery.
+
+Savings below compare the delivered AOM price with the hardcoded standalone alternative in [`src/domain.ts`](src/domain.ts). These are illustrative demo prices, not verified live retail quotes.
+
+| Buyer | Quantity | Standalone delivered alternative | AOM delivered total | Savings | Approved budget |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Consumer 1 | 1 cable | $6.99 | $3.99 | **$3.00** | $5.00 |
+| Consumer 2 | 1 cable | $6.99 | $3.99 | **$3.00** | $4.00 |
+| Company | 98 cables | $264.51 | $249.51 | **$15.00** | $250.00 |
+| **Total** | **100 cables** | **$278.49** | **$257.49** | **$21.00** | **$259.00** |
+
+Both consumers get a 7-foot cable that meets their minimum 5-foot requirement; the company gets exactly 98 seven-foot cables. Every purchase fits its approved delivered budget and the demo's five-day delivery estimate fits each buyer's seven-day limit. Each standalone alternative exceeds that buyer's budget, while the composed purchase brings all three within their limits.
+
+The buyers finish $1.01, $0.01, and $0.49 below their respective budget caps. That unused budget is distinct from the **$3, $3, and $15 savings against standalone alternatives**. The facilitator also earns a modeled $3.52 contribution after $236.50 procurement and $17.47 local delivery; demo taxes and payment fees are set to zero. Stripe payments are in test mode, and physical procurement and delivery are simulated.
+
+## Demo screenshots
+
+### Consumer buying experience in ChatGPT
+
+Consumer 1 sets product requirements, a delivered budget, a match deadline, and a delivery limit directly in chat. The app card shows the request and auto-buy status.
+
+![Consumer 1 buying intention and AOM shopping card inside ChatGPT](docs/images/consumer-chatgpt.png)
+
+### Company procurement in ChatGPT
+
+The company requests 98 cables, exactly seven feet long, with a $250 delivered budget and the same conversational buying experience.
+
+![Company buying intention for 98 cables and AOM shopping card inside ChatGPT](docs/images/company-chatgpt.png)
+
+### One order, three buyers
+
+The facilitator dashboard shows the completed 100-unit composition, all three buyer prices, and the batch economics.
+
+![Facilitator dashboard showing 98 plus 1 plus 1 cables, order placed, and a $3.52 contribution](docs/images/facilitator-order.png)
+
+### Real iMessage confirmation
+
+Inkbox sends the company an actual iMessage with its simulated order reference, $249.51 test payment, and estimated delivery. The message explicitly states that there is no real charge or shipment.
+
+<img src="docs/images/company-imessage.jpg" alt="Company iMessage confirming demo order AOM-2E8AA234 for 98 cables and a $249.51 test payment" width="360" />
 
 ## Local setup
 
