@@ -1,5 +1,7 @@
 # Agentic Open Marketplace (AOM)
 
+**[Watch the demo on YouTube](https://www.youtube.com/watch?v=lmkXp89RsHw)**
+
 Most shopping agents negotiate 1 on 1 to find the cheapest listing; AOM coordinates buyers to unlock a better price together. Our demo combines consumer and company demand into one order where all participants benefit - even after delivery is paid.
 
 AOM demonstrates that coordination. Each buyer states what they need, their budget, and how long they can wait; a facilitator discovers that their separate requests create a viable deal together.
