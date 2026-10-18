@@ -8,6 +8,13 @@ Our bet is that as more people delegate purchases to agents, those agents will n
 
 TypeScript / mcp-use hackathon prototype. Three buyers independently express requirements in ChatGPT. A separate facilitator agent discovers market MCP tools, composes 98 + 1 + 1 cable requests, collects three Stripe test payments, places a simulated supplier order, and sends the company an Inkbox iMessage.
 
+## Two things we're demonstrating
+
+1. **Demand aggregation:** independent buying intentions become collective purchasing power. A company seeking 98 cables and two consumers seeking one each reach the 100-unit supplier tier together. All three get a delivered deal within their approved limits that their standalone alternatives could not offer.
+2. **Marketplace composability:** an agent can assemble a deal from multiple capabilities—buyer demand, a supplier offer, local delivery, payment collection, and notifications. Here, a separate facilitator discovers and calls the marketplace's MCP tools to turn those pieces into one coordinated transaction. Demand aggregation creates the buying power; composability connects the pieces needed to fulfill it.
+
+The prototype demonstrates this with a hardcoded supplier offer and delivery costs, real Stripe test payments, and a real Inkbox iMessage. The broader vision is for agents to compose offers and services across independent marketplaces through shared interfaces such as MCP.
+
 ## Platforms Used
 Manufact (shopping agents and a facilitator agent)
 Stripe for payments
@@ -29,6 +36,13 @@ Savings below compare the delivered AOM price with the hardcoded standalone alte
 Both consumers get a 7-foot cable that meets their minimum 5-foot requirement; the company gets exactly 98 seven-foot cables. Every purchase fits its approved delivered budget and the demo's five-day delivery estimate fits each buyer's seven-day limit. Each standalone alternative exceeds that buyer's budget, while the composed purchase brings all three within their limits.
 
 The buyers finish $1.01, $0.01, and $0.49 below their respective budget caps. That unused budget is distinct from the **$3, $3, and $15 savings against standalone alternatives**. The facilitator also earns a modeled $3.52 contribution after $236.50 procurement and $17.47 local delivery; demo taxes and payment fees are set to zero. Stripe payments are in test mode, and physical procurement and delivery are simulated.
+
+### Product references
+
+- [Amazon: UGREEN Ethernet cable listing](https://www.amazon.com/UGREEN-Ethernet-Braided-Network-Compatible/dp/B0875VL1CJ) — retail reference for the standalone shopping alternative.
+- [Monoprice: 7-foot Cat8 Ethernet patch cable, product 49156](https://www.monoprice.com/product?p_id=49156) — supplier product reference for the demo's seven-foot cable.
+
+These links provide product context. The demo uses the fixed prices and supplier threshold in `src/domain.ts`; it does not fetch live prices or place orders on Amazon or Monoprice.
 
 ## Demo screenshots
 
