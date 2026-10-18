@@ -1,8 +1,8 @@
 # Agentic Open Marketplace (AOM)
 
-Most shopping agents work one buyer at a time: search listings, compare prices, and help with checkout. They miss opportunities that only emerge when multiple buyers coordinate.
+Most shopping agents negotiate 1 on 1 to find the cheapest listing; AOM coordinates buyers to unlock a better price together. Our demo combines consumer and company demand into one order where all participants benefit - even after delivery is paid.
 
-AOM demonstrates that coordination. Each buyer states what they need, their budget, and how long they can wait; a facilitator discovers that their separate requests create a viable deal together. The marketplace can form around demand before anyone creates a listing.
+AOM demonstrates that coordination. Each buyer states what they need, their budget, and how long they can wait; a facilitator discovers that their separate requests create a viable deal together.
 
 **One composed deal benefits four participants: Consumer 1 saves $3, Consumer 2 saves $3, the company saves $15, and the facilitator earns $3.52 for coordinating the transaction.**
 
