@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+.mcp-use/
+.vite/
+
+# TypeScript
+*.tsbuildinfo
+
+# Testing
+coverage/
+
+# Linting
+.eslintcache
+
+# Environment
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+*.pem
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# AOM local state, credentials, deployment metadata and test artifacts
+.env*
+!.env.example
+data/
+artifacts/
+.mcp-use/
+.aom/
+*.sqlite*
