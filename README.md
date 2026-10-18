@@ -37,7 +37,7 @@ The facilitator has an economic incentive to find and fulfill the match: it earn
 
 The company needs 98 cables, while two consumers each need one. Together, **98 + 1 + 1 = 100** unlocks the demo supplier's bulk tier. Each buyer gets exactly the quantity they want, and the facilitator coordinates the shared purchase and simulated local delivery.
 
-Savings below compare the delivered AOM price with the hardcoded standalone alternative in [`src/domain.ts`](src/domain.ts). These are illustrative demo prices, not verified live retail quotes.
+Savings below compare the delivered AOM price with the standalone alternative stored in [`src/domain.ts`](src/domain.ts). The consumer retail and supplier merchandise prices come from the October 18, 2026 observations linked under Product references below.
 
 | Buyer | Quantity | Standalone delivered alternative | AOM delivered total | Savings | Approved budget |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -63,10 +63,10 @@ The buyers finish $1.01, $0.01, and $0.49 below their respective budget caps. Th
 
 ### Product references
 
-- [Amazon: UGREEN Ethernet cable listing](https://www.amazon.com/UGREEN-Ethernet-Braided-Network-Compatible/dp/B0875VL1CJ) — retail reference for the standalone shopping alternative.
-- [Monoprice: 7-foot Cat8 Ethernet patch cable, product 49156](https://www.monoprice.com/product?p_id=49156) — supplier product reference for the demo's seven-foot cable.
+- [Amazon: UGREEN Ethernet cable listing](https://www.amazon.com/UGREEN-Ethernet-Braided-Network-Compatible/dp/B0875VL1CJ) — **$6.99 per cable**, observed on **October 18, 2026**, is the standalone consumer price reference.
+- [Monoprice: 7-foot Cat8 Ethernet patch cable, product 49156](https://www.monoprice.com/product?p_id=49156) — **$2.165 per cable with a coupon**, observed on **October 18, 2026**, is the supplier merchandise price for the 100-cable order: **100 × $2.165 = $216.50**. Adding $20.00 inbound shipping gives **$236.50 procurement**; $17.47 local delivery is accounted for separately.
 
-These links provide product context. The demo uses the fixed prices and supplier threshold in `src/domain.ts`; it does not fetch live prices or place orders on Amazon or Monoprice.
+These real prices were observed by the project creator on **October 18, 2026**. The prototype uses them as fixed inputs in `src/domain.ts` to demonstrate demand aggregation and marketplace composability.
 
 ## Demo screenshots
 
