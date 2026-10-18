@@ -4,6 +4,10 @@ Most shopping agents work one buyer at a time: search listings, compare prices, 
 
 AOM demonstrates that coordination. Each buyer states what they need, their budget, and how long they can wait; a facilitator discovers that their separate requests create a viable deal together. The marketplace can form around demand before anyone creates a listing.
 
+**One composed deal benefits four participants: Consumer 1 saves $3, Consumer 2 saves $3, the company saves $15, and the facilitator earns $3.52 for coordinating the transaction.**
+
+> **Buyers save $21 combined, delivery is covered, and the facilitator still earns $3.52.** That margin remains **after paying $236.50 for procurement and the full $17.47 local delivery cost**, both included in the buyers' delivered prices. These are modeled demo economics with taxes and payment fees set to zero.
+
 Our bet is that as more people delegate purchases to agents, those agents will negotiate and coordinate with each other. **Today we browse marketplaces. Tomorrow our agents will create them.**
 
 TypeScript / mcp-use hackathon prototype. Three buyers independently express requirements in ChatGPT. A separate facilitator agent discovers market MCP tools, composes 98 + 1 + 1 cable requests, collects three Stripe test payments, places a simulated supplier order, and sends the company an Inkbox iMessage.
@@ -20,7 +24,16 @@ Manufact (shopping agents and a facilitator agent)
 Stripe for payments
 Inkbox (iMessage alerts)
 
-## How all three buyers benefit
+## How all four participants benefit: three buyers and the facilitator
+
+| Participant | Benefit from the composed deal |
+| --- | --- |
+| Consumer 1 | **Saves $3.00** against the standalone alternative |
+| Consumer 2 | **Saves $3.00** against the standalone alternative |
+| Company | **Saves $15.00** against the standalone alternative |
+| Facilitator | **Keeps $3.52 after covering procurement and the full $17.47 local delivery cost** (modeled contribution) |
+
+The facilitator has an economic incentive to find and fulfill the match: it earns a margin while giving every buyer a better deal. That margin is already included in the buyers' delivered prices.
 
 The company needs 98 cables, while two consumers each need one. Together, **98 + 1 + 1 = 100** unlocks the demo supplier's bulk tier. Each buyer gets exactly the quantity they want, and the facilitator coordinates the shared purchase and simulated local delivery.
 
@@ -35,7 +48,18 @@ Savings below compare the delivered AOM price with the hardcoded standalone alte
 
 Both consumers get a 7-foot cable that meets their minimum 5-foot requirement; the company gets exactly 98 seven-foot cables. Every purchase fits its approved delivered budget and the demo's five-day delivery estimate fits each buyer's seven-day limit. Each standalone alternative exceeds that buyer's budget, while the composed purchase brings all three within their limits.
 
-The buyers finish $1.01, $0.01, and $0.49 below their respective budget caps. That unused budget is distinct from the **$3, $3, and $15 savings against standalone alternatives**. The facilitator also earns a modeled $3.52 contribution after $236.50 procurement and $17.47 local delivery; demo taxes and payment fees are set to zero. Stripe payments are in test mode, and physical procurement and delivery are simulated.
+The buyers finish $1.01, $0.01, and $0.49 below their respective budget caps. That unused budget is distinct from the **$3, $3, and $15 savings against standalone alternatives**.
+
+### Delivery covered, facilitator margin retained
+
+| Facilitator economics | Amount |
+| --- | ---: |
+| Total collected from the three buyers | $257.49 |
+| Supplier procurement, including inbound shipping | −$236.50 |
+| Local delivery to the three buyers | **−$17.47** |
+| **Remaining facilitator contribution after procurement and delivery** | **$3.52** |
+
+**The $3.52 is what remains after the $17.47 delivery cost has been deducted.** Buyers pay no additional delivery charge beyond the delivered totals above. Demo taxes and payment fees are set to zero, so this is not a claim of production net profit. Stripe payments are in test mode, and physical procurement and delivery are simulated.
 
 ### Product references
 
