@@ -34,6 +34,21 @@ Connect clients to each service's `/mcp` endpoint. Local servers need an HTTPS t
 - `AOM_ADMIN_SECRET`: protects reset; not exposed through MCP.
 - `ALLOW_MOCK_PAYMENTS=true`: explicit rehearsal only. Cards and receipts say Mock. It is never silently presented as Stripe.
 
+## Connect the hosted apps to ChatGPT
+
+The two services are already hosted; starting a local server is unnecessary for recording.
+
+1. Open ChatGPT on the web. In the Plugins page, select **+ → Add custom MCP server**. If your account uses the Apps interface, enable **Settings → Apps → Advanced settings → Developer mode**, then select **Create** in Apps.
+2. Add **AOM Marketplace**, with description “Demo shopping intentions, price alerts and shared purchasing.” Use public MCP URL `https://wild-cloud-9lg22.run.mcp-use.com/mcp` and authentication **None / No authentication**. Review the warning and create/install the app.
+3. Repeat for **AOM Facilitator**, with description “Autonomous matching, purchasing and seller dashboard.” URL: `https://bold-forge-lsu8h.run.mcp-use.com/mcp`; authentication **None / No authentication**.
+4. In a new conversation, type `@` and select **AOM Marketplace**. Ask “Show the market dashboard.” This calls `get_market_status` and renders the app card. For the seller console, select **AOM Facilitator** and ask “Show the facilitator dashboard.”
+5. To start fresh, click **Reset demo** on either card, then **Yes, reset the shared demo**. Alternatively ask the selected app “Reset the shared demo.” No terminal or reset secret is needed in ChatGPT. This resets every buyer and the shared order; Stripe test history and sent iMessages remain. Reset waits until payment/notification processing finishes.
+6. Use three separate buyer conversations with **AOM Marketplace** selected in each. Use a fourth conversation with **AOM Facilitator** for the seller dashboard. Refresh existing cards after resets; new conversations avoid reusing old request IDs.
+
+Do not paste API keys into ChatGPT setup. Provider keys are already configured on Manufact. These are shared, unauthenticated demo apps: anyone with the endpoints can view/reset the synthetic demo. They are not production customer accounts.
+
+After tool/UI changes, refresh the connection in ChatGPT and start a new conversation. See [official connection guidance](https://developers.openai.com/apps-sdk/deploy/connect-chatgpt/). Account/workspace policies can restrict custom app creation.
+
 ## Recording sequence
 
 Use separate ChatGPT conversations for the three seeded profiles. All request tools show a card; the buyer may explicitly approve in chat or check the review box and click Enable auto-buy.
@@ -72,6 +87,7 @@ Budget is TOTAL delivered cents. Omit `maximum_length_ft` if longer cables are a
 - `cancel_request(request_id)`: revoke an unreserved request.
 - `get_buyer_status(demo_buyer)`: buyer card.
 - `get_market_status()`: shared synthetic market ledger, usable in any client.
+- `reset_demo(confirm_reset: true)`: available on both services; clears the shared demo after an explicit reset request. Does not send payments/messages or erase provider history.
 - Facilitator service: `get_facilitator_status()`, `run_facilitator()`.
 - Protected market execution tools: `list_open_demand()`, `propose_batch(intent_ids)`, `execute_batch(batch_id)`, `place_supplier_order(batch_id)`. Require `x-aom-agent-key`. Prices are computed by the market, never supplied by the agent.
 

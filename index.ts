@@ -93,8 +93,21 @@ export const runFacilitator = server.tool({ name: 'run_facilitator', title: 'Run
   try { requireRole('facilitator'); return result({ data: await runAgent() }); } catch (e) { return failure(e); }
 });
 
+export const resetDemo = server.tool({ name: 'reset_demo', title: 'Reset the shared demo',
+  description: 'Only when the user requests a fresh demo: clear ALL three synthetic buyer requests, authorizations, order and timeline. Does not refund or delete Stripe test history or sent iMessages. No new payments or messages are sent. Rejects reset during payment or notification processing.',
+  inputSchema: z.object({ confirm_reset: z.literal(true) }), outputSchema: snapshotSchema, view: { ...view, name: 'reset' }, annotations: { ...write, destructiveHint: true } }, async () => {
+  try {
+    if (!facilitator) { reset(); return result(marketSnapshot()); }
+    const c = await connectMarket();
+    try {
+      const response = await c.callTool({ name: 'reset_demo', arguments: { confirm_reset: true } });
+      if (response.isError) throw new Error(response.content.filter(c => c.type === 'text').map(c => c.text).join('\n') || 'Market reset failed.');
+      return result({ ...snapshotSchema.parse(response.structuredContent), service_role: 'facilitator' as const, agent_mode: agentStatus().mode });
+    } finally { await c.close(); }
+  } catch (e) { return failure(e); }
+});
 const facilitatorTools = new Set(['get_facilitator_status', 'run_facilitator']);
-server.use('mcp:tools/list', async (_, next) => (await next()).filter(t => facilitator === facilitatorTools.has(t.name)));
+server.use('mcp:tools/list', async (_, next) => (await next()).filter(t => t.name === 'reset_demo' || facilitator === facilitatorTools.has(t.name)));
 server.get('/health', c => c.json({ ok: true, service: `aom-${role}`, agent_mode: facilitator ? agentStatus().mode : undefined }));
 server.post('/internal/wake', async c => {
   if (!equal(c.req.header('x-aom-agent-key') || '', process.env.AOM_AGENT_SECRET || '')) return c.json({ error: 'Unauthorized' }, 401);

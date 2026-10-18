@@ -17,7 +17,7 @@ try {
   const buyers = await Promise.all([connect(3100, 'consumer-one-client'), connect(3100, 'consumer-two-client'), connect(3100, 'company-client')]);
   const seller = await connect(3101, 'facilitator-client');
   const marketTools = await buyers[0].listTools(); assert.ok(marketTools.tools.some(t => t.name === 'set_price_alert'));
-  const sellerTools = await seller.listTools(); assert.deepEqual(sellerTools.tools.map(t => t.name).sort(), ['get_facilitator_status', 'run_facilitator']);
+  const sellerTools = await seller.listTools(); assert.deepEqual(sellerTools.tools.map(t => t.name).sort(), ['get_facilitator_status', 'reset_demo', 'run_facilitator']);
   const denied = await buyers[0].callTool({ name: 'propose_batch', arguments: { intent_ids: ['a', 'b', 'c'] } }); assert.equal(denied.isError, true);
   for (let i = 0; i < buyers.length; i++) {
     const snapshot = await call(buyers[i], i === 1 ? 'set_price_alert' : 'set_buy_intent', { demo_buyer: ['consumer_1', 'consumer_2', 'company'][i], quantity: i === 2 ? 98 : 1, maximum_total_cents: i === 2 ? 25000 : 400, minimum_length_ft: i === 2 ? 7 : 5 });
@@ -33,6 +33,11 @@ try {
   const same = await call(secondClient, 'get_market_status', {}); assert.equal(same.batch.id, final.batch.id);
   await call(seller, 'run_facilitator', {});
   const again = await call(secondClient, 'get_market_status', {}); assert.equal(again.batch.payments.length, 3);
+  const cleared = await call(seller, 'reset_demo', { confirm_reset: true });
+  assert.notEqual(cleared.run_id, final.run_id); assert.equal(cleared.requests.length, 0); assert.equal(cleared.batch, null);
+  const buyerCleared = await call(secondClient, 'get_market_status', {}); assert.equal(buyerCleared.run_id, cleared.run_id);
+  const marketReset = await call(secondClient, 'reset_demo', { confirm_reset: true }); assert.notEqual(marketReset.run_id, cleared.run_id);
+  console.log('PASS: ChatGPT reset tool works on both services and clears the shared demo without a new order.');
   console.log('PASS: three buyer clients → auto-buy → separate facilitator MCP calls → 3 mock payments → one simulated order.');
   console.log('PASS: missing facilitator credentials rejected; second client reads same batch; repeated agent run does not double-charge.');
 } catch (e) { console.error(logs); throw e; }

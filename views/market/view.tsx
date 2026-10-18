@@ -14,12 +14,14 @@ export default function MarketView() {
   const [error, setError] = useState('');
   const [consent, setConsent] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [confirmReset, setConfirmReset] = useState(false);
   const buyerStatus = useCallTool('get_buyer_status');
   const facilitatorStatus = useCallTool('get_facilitator_status');
   const marketStatus = useCallTool('get_market_status');
   const authorize = useCallTool('authorize_auto_buy');
   const cancel = useCallTool('cancel_request');
   const run = useCallTool('run_facilitator');
+  const resetDemo = useCallTool('reset_demo');
   const data = updated || (context.status === 'ready' ? context.toolOutput : null);
   async function perform(fn: () => Promise<Snapshot | void>) { setBusy(true); setError(''); try { const next = await fn(); if (next) setUpdated(next); } catch (e) { setError(e instanceof Error ? e.message : 'Please try again.'); } finally { setBusy(false); } }
   async function refresh() {
@@ -57,6 +59,8 @@ export default function MarketView() {
       {data.agent_mode && <p className="disclosure">{data.agent_mode === 'llm' ? 'Autonomous LLM facilitator · tools discovered over MCP' : 'Scripted rehearsal · add OPENAI_API_KEY to enable the autonomous facilitator'}</p>}
     </>}
     {error && <p className="error" role="alert">{error}</p>}
+    {confirmReset && <section className="consent"><h3>Start a fresh demo?</h3><p>This clears all three buyers’ requests, auto-buy permissions and the shared order. Previous Stripe test payments and sent iMessages remain.</p><button disabled={busy} onClick={() => void perform(async () => { const response = await resetDemo.callTool({ confirm_reset: true }); setConfirmReset(false); setConsent(false); return response.structuredContent; })}>Yes, reset the shared demo</button><button className="text-button" disabled={busy} onClick={() => setConfirmReset(false)}>Keep this run</button></section>}
+    <button className="text-button" disabled={busy || confirmReset} onClick={() => setConfirmReset(true)}>Reset demo</button>
     <footer><button className="secondary" disabled={busy} onClick={() => void perform(refresh)}>{busy ? 'Checking…' : '↻ Refresh status'}</button>{buyer && request && ['watching', 'awaiting_permission'].includes(request.status) && <button className="text-button" disabled={busy} onClick={() => void perform(async () => (await cancel.callTool({ request_id: request.id })).structuredContent)}>Cancel request</button>}{!buyer && data.service_role === 'facilitator' && <button disabled={busy || batch?.status === 'placed'} onClick={() => void perform(async () => { await run.callTool({}); return refresh(); })}>{busy ? 'Agent working…' : 'Run facilitator'} ↗</button>}</footer>
     <p className="disclosure">Hackathon sandbox · {data.payment_mode === 'stripe_test' ? 'Stripe test payments' : data.payment_mode === 'mock' ? 'Mock payments' : 'Payments not configured'} · Procurement and delivery simulated</p>
   </main></ThemeProvider>;

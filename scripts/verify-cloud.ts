@@ -10,6 +10,7 @@ for (const role of ['market', 'facilitator']) {
   try {
     const tools = await client.listTools();
     assert.ok(tools.tools.some(t => t.name === (role === 'market' ? 'set_buy_intent' : 'run_facilitator')));
+    assert.ok(tools.tools.some(t => t.name === 'reset_demo'), 'Wait for the in-app reset deployment to become active.');
     const status = await client.callTool({ name: role === 'market' ? 'get_market_status' : 'get_facilitator_status', arguments: {} });
     assert.ok(!status.isError, JSON.stringify(status.content));
     const data = status.structuredContent as { summary: string; service_role: string; agent_mode?: string; payment_mode: string };
